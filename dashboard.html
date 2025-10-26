@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  
+  
+  <title>Trang quản trị HFTA</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="module">
+    // Import các hàm bạn cần từ SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
+    // Thêm import cho Authentication
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
+    // Your web app's Firebase configuration
+    // (Đây là config bạn đã cung cấp)
+    const firebaseConfig = {
+        apiKey: "AIzaSyBfu2qVSLiTIaf2xUwVUw0AzROtE5YS8Tc",
+        authDomain: "hfta-a1cdc.firebaseapp.com",
+        projectId: "hfta-a1cdc",
+        storageBucket: "hfta-a1cdc.firebasestorage.app",
+        messagingSenderId: "715501206681",
+        appId: "1:715501206681:web:5bb1a8076e8828d0accc08"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    // Lấy dịch vụ Auth
+    const auth = getAuth(app);
+
+    // Đây là "người gác cổng"
+    onAuthStateChanged(auth, user => {
+        if (!user) {
+            // Nếu không có người dùng nào đang đăng nhập, đẩy về trang login
+            console.log("Chưa đăng nhập, chuyển về index.html");
+            window.location.href = 'index.html';
+        } else {
+            // Nếu đã đăng nhập, cho phép ở lại và tải script của dashboard
+            console.log("Đã đăng nhập:", user.email);
+            loadDashboardScripts(); // Tải các script cần thiết
+        }
+    });
+
+    // Hàm này sẽ tải các script thư viện VÀ script.js của bạn
+    // SAU KHI đăng nhập thành công
+    function loadDashboardScripts() {
+        const scripts = [
+            "https://cdn.jsdelivr.net/npm/chart.js",
+            "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",
+            "script.js" // Tải script chính của bạn CUỐI CÙNG
+        ];
+
+        let loadedCount = 0;
+        
+        function loadScript(src) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.body.appendChild(script);
+            });
+        }
+
+        // Tải các script tuần tự để đảm bảo script.js chạy sau cùng
+        async function loadAll() {
+            await loadScript(scripts[0]); // Tải Chart.js
+            await loadScript(scripts[1]); // Tải jsPDF
+            await loadScript(scripts[2]); // Tải script.js
+            console.log("Đã tải tất cả script của dashboard.");
+        }
+        
+        loadAll();
+    }
+  </script>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="nav-left">
+      <img src="logo.png" alt="Logo" class="nav-logo" />
+      
+      <h1>Hanoi Center for Financial and Technology Analytics</h1>
+    </div>
+    <nav class="nav-menu">
+      <button class="tab active" data-tab="overview">Tổng quan</button>
+      <button class="tab" data-tab="quant">Quant AI</button>
+      <button class="tab" data-tab="sentiment">Sentiment AI</button>
+      <button class="tab" data-tab="risk">Rủi ro</button>
+      <button class="tab" data-tab="macro">Vĩ mô</button>
+      <button class="tab" data-tab="advisor">Cố vấn</button>
+      <button class="tab" data-tab="console">AI Console</button>
+      <button class="tab" data-tab="report">Báo cáo</button>
+    </nav>
+  </header>
+
+  <main id="content">
+
+    <section id="overview" class="tab-content active">
+      <h2>📊 Tổng quan hệ thống</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Giá BTC hiện tại</h3>
+          <p class="big-number">$67,430</p>
+          <small>+1.24% trong 24h</small>
+        </div>
+        <div class="card">
+          <h3>Độ tin cậy tổng hợp</h3>
+          <p class="big-number">82%</p>
+          <small>Đánh giá bởi 4 Ban AI</small>
+        </div>
+        <div class="card">
+          <h3>Khuyến nghị cuối</h3>
+          <p class="big-number">LONG 20%</p>
+          <small>Theo Kelly Criterion</small>
+        </div>
+      </div>
+    </section>
+
+    <section id="quant" class="tab-content">
+      <h2>📈 Quant AI – Phân tích kỹ thuật</h2>
+      <p>AI nhận định xu hướng tăng trung hạn, RSI = 58, MA50 > MA200.</p>
+      <div class="chart-box">
+        <canvas id="quantChart"></canvas>
+      </div>
+    </section>
+
+    <section id="sentiment" class="tab-content">
+      <h2>💬 Sentiment AI – Tâm lý thị trường</h2>
+      <p>Twitter: FOMO nhẹ, Reddit: Trung lập. Điểm cảm xúc: <strong>63/100</strong></p>
+      <div class="card sentiment-meter">
+        <div class="fill" style="width:63%"></div>
+      </div>
+    </section>
+
+    <section id="risk" class="tab-content">
+      <h2>⚠️ Risk AI – Quản trị rủi ro</h2>
+      <ul>
+        <li>Độ biến động hiện tại: <b>3.2%</b></li>
+        <li>Max Drawdown dự kiến: <b>-8.6%</b></li>
+        <li>Khuyến nghị vốn tối đa: <b>25%</b></li>
+      </ul>
+    </section>
+
+    <section id="macro" class="tab-content">
+      <h2>🌍 Macro AI – Chu kỳ & Dòng tiền</h2>
+      <p>DXY giảm nhẹ, SP500 đi ngang, On-chain inflow giảm 4%. Tín hiệu “Risk-On”.</p>
+      <img src="https://www.tradingview.com/x/bC6TgR9u/" alt="macro chart" class="demo-img" />
+    </section>
+
+    <section id="advisor" class="tab-content">
+      <h2>🧠 Advisor LLM – Phản biện & Tư duy</h2>
+      <div class="chat-box">
+        <div class="msg ai">Quant AI: Xác suất tăng 68%.</div>
+        <div class="msg ai">Sentiment AI: Tâm lý đang cải thiện.</div>
+        <div class="msg human">Bạn: Xem lại correlation giữa DXY và BTC tuần này.</div>
+        <div class="msg ai">Advisor: Correlation -0.45 ⇒ hỗ trợ tăng giá.</div>
+      </div>
+    </section>
+
+    <section id="console" class="tab-content">
+      <h2>💻 AI Console</h2>
+      <textarea id="aiInput" placeholder="Nhập lệnh hoặc câu hỏi cho AI..."></textarea>
+      <button id="runAI">Gửi</button>
+      <div id="aiOutput"></div>
+    </section>
+
+    <section id="report" class="tab-content">
+      <h2>📑 Báo cáo & Xuất PDF</h2>
+      <p>Bấm nút bên dưới để tạo báo cáo PDF.</p>
+      <button id="exportPDF">Xuất báo cáo</button>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Hanoi Center for Financial and Technology Analytics © 2025 | Designed by Thanh Le</p>
+    <p>Liên hệ: <a href="facebook.com">Facebook</a></p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

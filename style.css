@@ -1,0 +1,210 @@
+/* SỬA LẠI BODY ĐỂ FIX FOOTER */
+body {
+  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+  background: #fffef8;
+  color: #333;
+  line-height: 1.6;
+  overflow-x: hidden;
+  animation: fadeIn 1s ease;
+  
+  display: flex; /* <-- ĐÃ THÊM */
+  flex-direction: column; /* <-- ĐÃ THÊM */
+  min-height: 100vh; /* <-- ĐÃ THÊM */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== HEADER ===== */
+.navbar {
+  background: linear-gradient(90deg, #fffbe8, #fff3c2);
+  padding: 12px 20px;
+  box-shadow: 0 2px 10px rgba(255, 215, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-logo {
+  width: auto;
+  height: 40px;
+  animation: spinCoin 6s linear infinite;
+}
+
+@keyframes spinCoin {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+.nav-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nav-menu .tab {
+  background: #fff8c5;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-menu .tab:hover {
+  background: #ffe78c;
+  transform: scale(1.05);
+}
+
+.nav-menu .active {
+  background: #ffde5d;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+/* ===== CONTENT ===== */
+/* SỬA LẠI MAIN ĐỂ FIX FOOTER */
+main {
+  padding: 20px;
+  flex: 1; /* <-- ĐÃ THÊM (Rất quan trọng, nó sẽ đẩy footer xuống) */
+}
+
+section {
+  display: none;
+  animation: fadeSlide 0.6s ease;
+}
+
+section.active {
+  display: block;
+}
+
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== CARDS ===== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+.card {
+  background: #fffef1;
+  border: 1px solid #fce98b;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 3px 8px rgba(255, 215, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(255, 215, 0, 0.35);
+}
+
+.big-number {
+  font-size: 24px;
+  color: #a37400;
+  font-weight: bold;
+}
+
+/* ===== CHAT / CONSOLE ===== */
+.chat-box {
+  background: #fffef4;
+  border: 1px solid #f8e49c;
+  padding: 15px;
+  border-radius: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.msg {
+  margin-bottom: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+
+.msg.ai {
+  background: #fff3c2;
+}
+
+.msg.human {
+  background: #e8f6ff;
+  text-align: right;
+}
+
+/* ===== CONSOLE ===== */
+#aiInput {
+  width: 100%;
+  height: 80px;
+  border-radius: 10px;
+  border: 1px solid #f3d97a;
+  padding: 10px;
+  box-sizing: border-box; /* Thêm để padding không phá layout */
+}
+
+#runAI {
+  margin-top: 10px;
+  background: #ffe78c;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 15px;
+  cursor: pointer;
+}
+
+#aiOutput {
+  margin-top: 15px;
+  padding: 10px;
+  background: #fffef4;
+  border: 1px solid #f3d97a;
+  border-radius: 8px;
+  min-height: 50px;
+}
+
+/* ===== DEMO IMAGE & CHART ===== */
+.demo-img {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 10px;
+}
+.chart-box {
+    max-width: 800px;
+    margin: auto;
+}
+.sentiment-meter {
+    height: 30px;
+    width: 100%;
+    background: #eee;
+    border-radius: 15px;
+    padding: 0;
+    overflow: hidden;
+}
+.sentiment-meter .fill {
+    height: 100%;
+    background: #ffde5d;
+}
+
+
+/* ===== FOOTER (SỬA LẠI ĐỂ FIX FOOTER) ===== */
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  color: #666;
+  background: #fffbe8;
+  border-top: 1px solid #f3d97a;
+  
+  width: 100%; /* <-- ĐÃ THÊM */
+  box-sizing: border-box; /* <-- ĐÃ THÊM */
+}
